@@ -1,6 +1,6 @@
-var syntax         = 'sass', // Syntax: sass or scss;
+var syntax         = 'css', // Syntax: sass or scss;
 		gulpVersion    = '4'; // Gulp version: 3 or 4
-		gmWatch        = false; // ON/OFF GraphicsMagick watching "img/_src" folder (true/false). Linux install gm: sudo apt update; sudo apt install graphicsmagick
+		gmWatch        = true; // ON/OFF GraphicsMagick watching "img/_src" folder (true/false). Linux install gm: sudo apt update; sudo apt install graphicsmagick
 
 var gulp          = require('gulp'),
 		gutil         = require('gulp-util' ),
@@ -44,7 +44,6 @@ gulp.task('styles', function() {
 // JS
 gulp.task('scripts', function() {
 	return gulp.src([
-		'app/libs/jquery/dist/jquery.min.js',
 		'app/js/common.js', // Always at the end
 		])
 	.pipe(concat('scripts.min.js'))
@@ -99,7 +98,7 @@ if (gulpVersion == 3) {
 
 	// Img Processing Task for Gulp 3
 	gulp.task('img', ['img1x', 'img2x']);
-	
+
 	var taskArr = ['styles', 'scripts', 'browser-sync'];
 	gmWatch && taskArr.unshift('img');
 
@@ -125,7 +124,7 @@ if (gulpVersion == 4) {
 		gulp.watch('app/*.html', gulp.parallel('code'));
 		gmWatch && gulp.watch('app/img/_src/**/*', gulp.parallel('img')); // GraphicsMagick watching image sources if allowed.
 	});
-	gmWatch ? gulp.task('default', gulp.parallel('img', 'styles', 'scripts', 'browser-sync', 'watch')) 
+	gmWatch ? gulp.task('default', gulp.parallel('img', 'styles', 'scripts', 'browser-sync', 'watch'))
 					: gulp.task('default', gulp.parallel('styles', 'scripts', 'browser-sync', 'watch'));
 
 };
